@@ -874,7 +874,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!4 &1210984981 stripped
 Transform:
@@ -897,6 +897,10 @@ MonoBehaviour:
   runSpeed: 6
   rotationSpeed: 10
   cameraTransform: {fileID: 330585546}
+  jumpHeight: 2
+  gravity: -9.81
+  gravityMultiplier: 2
+  groundedTimer: 0
 --- !u!1 &1773200340
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,7 +915,7 @@ GameObject:
   - component: {fileID: 1773200342}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

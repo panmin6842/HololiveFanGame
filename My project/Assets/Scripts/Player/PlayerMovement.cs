@@ -13,6 +13,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
     private Animator ani;
 
+    [Header("Jump Settings")]
+    [SerializeField] private float jumpHeight = 10f;
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float gravityMultiplier = 2f; //빠른 추락
+
+    [SerializeField] private float groundedTimer;
+    // 점프 유예시간(버퍼) 변수 추가
+    private float groundedBufferTime = 0.15f;
+    private float verticalVelocity; //Y축 속도
+
     private CharacterController characterController;
     private PlayerControls inputActions;
     private Vector2 movementInput;
@@ -37,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
 
         inputActions.Player.Sprint.performed += OnSprintPerformed;
         inputActions.Player.Sprint.canceled += OnSprintCanceled;
+
+        inputActions.Player.Jump.performed += OnJumpPerformed;
     }
 
     private void OnDisable()
@@ -46,13 +58,25 @@ public class PlayerMovement : MonoBehaviour
 
         inputActions.Player.Sprint.performed -= OnSprintPerformed;
         inputActions.Player.Sprint.canceled -= OnSprintCanceled;
+
+        inputActions.Player.Jump.performed -= OnJumpPerformed;
         inputActions.Disable();
     }
 
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();
+        //매 프레임 바닥 체크 타이머
+        if(characterController.isGrounded)
+        {
+            groundedTimer = groundedBufferTime;
+        }
+        else
+        {
+            groundedTimer -= Time.deltaTime;
+        }
+
+            CalculateMovement();
         RotatePlayer();
         UpdateAnimation();
     }
@@ -63,6 +87,16 @@ public class PlayerMovement : MonoBehaviour
     private void OnSprintPerformed(InputAction.CallbackContext context) => isSprintPressed = true;
     private void OnSprintCanceled(InputAction.CallbackContext context) => isSprintPressed = false;
 
+    private void OnJumpPerformed(InputAction.CallbackContext context)
+    {
+        if(groundedTimer > 0f)
+        {
+            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * (gravity * gravityMultiplier));
+            ani.SetTrigger("Jump");
+
+            groundedTimer = 0;
+        }
+    }
     private void CalculateMovement()
     {
         // 카메라가 바라보는 방향
@@ -80,7 +114,22 @@ public class PlayerMovement : MonoBehaviour
 
         float currentSpeed = (movementInput != Vector2.zero && isSprintPressed) ? runSpeed : walkSpeed;
 
-        characterController.Move(moveDirection * currentSpeed * Time.deltaTime);
+        Vector3 finalMove = moveDirection * currentSpeed;
+
+        if (characterController.isGrounded && verticalVelocity < 0)
+        {
+            verticalVelocity = -0.5f;
+        }
+        else
+        {
+            // 공중에 떠 있다면 매 프레임 중력 적용
+            verticalVelocity += gravity * gravityMultiplier * Time.deltaTime;
+        }
+
+        // 4. 평면 이동(X, Z)과 수직 이동(Y)을 결합
+        finalMove.y = verticalVelocity;
+
+        characterController.Move(finalMove * Time.deltaTime);
     }
 
     private void RotatePlayer()
