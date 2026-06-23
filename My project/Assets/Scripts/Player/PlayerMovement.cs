@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isSprintPressed;
 
     private readonly int speedHash = Animator.StringToHash("Speed");
+    private readonly int jumpHash = Animator.StringToHash("Jump");
 
     private void Awake()
     {
@@ -92,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         if(groundedTimer > 0f)
         {
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * (gravity * gravityMultiplier));
-            ani.SetTrigger("Jump");
+            ani.SetTrigger(jumpHash);
 
             groundedTimer = 0;
         }
