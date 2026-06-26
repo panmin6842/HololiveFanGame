@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float runSpeed = 6f;
     [SerializeField] private float rotationSpeed = 10f;
 
+    public bool noMove = false;
+
     [Header("References")]
     [SerializeField] private Transform cameraTransform;
     private Animator ani;
@@ -77,9 +79,12 @@ public class PlayerMovement : MonoBehaviour
             groundedTimer -= Time.deltaTime;
         }
 
+        if (!noMove)
+        {
             CalculateMovement();
-        RotatePlayer();
-        UpdateAnimation();
+            UpdateAnimation();
+            RotatePlayer();
+        }
     }
 
     private void OnMovePerformed(InputAction.CallbackContext context) => movementInput = context.ReadValue<Vector2>();

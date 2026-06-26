@@ -538,6 +538,37 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &697421133
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 697421134}
+  m_Layer: 0
+  m_Name: Card_LeftControlPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &697421134
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697421133}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.543, y: 1.599, z: 0.557}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1210984981}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,6 +1036,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2097798941}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 697421134}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
       insertIndex: -1
@@ -1096,6 +1130,7 @@ MonoBehaviour:
   walkSpeed: 3
   runSpeed: 6
   rotationSpeed: 10
+  noMove: 0
   cameraTransform: {fileID: 330585546}
   jumpHeight: 2
   gravity: -9.81
@@ -1115,9 +1150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardBasicAttack
   cardStartPoint: {fileID: 2059641870}
   cardRightControlPoint: {fileID: 2097798941}
+  cardLeftControlPoint: {fileID: 697421134}
   cam: {fileID: 330585543}
   cardPrefab: {fileID: 4626906103967281039, guid: b622d76d39375a142afde7b1c20e5230, type: 3}
-  attack: 0
 --- !u!1 &1504332049
 GameObject:
   m_ObjectHideFlags: 0
