@@ -104,3 +104,8 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# MMD4Mecanim 대용량 라이브러리 파일 제외
+*.a
+*.dll
+Assets/MMD4Mecanim/
