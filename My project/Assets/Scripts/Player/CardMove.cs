@@ -6,7 +6,7 @@ public class CardMove : MonoBehaviour
     private GameObject player;
 
     private float time = 0f;
-    private float curveSpeed = 1f;
+    private float curveSpeed = 2f;
 
     private Vector3 p0, p1, p2; //p0은 시작 지점 p1은 곡선의 정점 오른쪽으로 가면 최대로 오른쪽으로 가는 지점 p3는 최종 목적지
 

@@ -23,6 +23,13 @@ public class CardBasicAttack : MonoBehaviour
     private int comboCount = 0;
     private bool canCombo = false;
 
+    [SerializeField] private float detectRadius = 5f;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private Collider[] detectEnemys;
+    [SerializeField] private Collider closerEnemy;
+
+    private float dist0;
+
     private void Awake()
     {
         inputActions = new PlayerControls();
@@ -44,6 +51,8 @@ public class CardBasicAttack : MonoBehaviour
     {
         ani = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
+
+        dist0 = 5;
     }
 
     public void OnComboOpen() => canCombo = true;
@@ -53,21 +62,40 @@ public class CardBasicAttack : MonoBehaviour
         comboCount = 0;
     }
 
-    private void Update()
+    private void DetectEnemies()
     {
-        Debug.Log(canCombo);
+        detectEnemys = Physics.OverlapSphere(transform.position, detectRadius, enemyLayer);
+
+        foreach (var enemyCollider in detectEnemys)
+        {
+            float dist = Vector3.Distance(transform.position, enemyCollider.transform.position);
+
+            if (dist < dist0)
+            {
+                dist0 = dist;
+                closerEnemy = enemyCollider;
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectRadius);
     }
 
     private void OnAttack(InputAction.CallbackContext context)
     {
         if (!canCombo && comboCount == 0)
         {
+            DetectEnemies();
             playerMovement.noMove = true;
             ani.SetTrigger(attack1Hash);
             comboCount = 1;
         }
         else if (canCombo && comboCount == 1)
         {
+            DetectEnemies();
             canCombo = false;
             playerMovement.noMove = true;
             ani.SetTrigger(attack2Hash);
@@ -85,7 +113,7 @@ public class CardBasicAttack : MonoBehaviour
 
         Vector3 startPos = cardStartPoint.position;
         Vector3 controlPos = pos;
-        Vector3 endPoint = startPos + (cam.transform.forward * 15f);
+        Vector3 endPoint = closerEnemy.transform.position;
 
         GameObject newCard = Instantiate(cardPrefab, startPos, Quaternion.identity);
 
