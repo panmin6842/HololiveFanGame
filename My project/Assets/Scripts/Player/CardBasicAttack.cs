@@ -1,4 +1,5 @@
 using Mono.Cecil.Cil;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,6 +13,8 @@ public class CardBasicAttack : MonoBehaviour
     [SerializeField] private GameObject cam;
 
     [SerializeField] private GameObject cardPrefab;
+    [SerializeField] private GameObject card;
+    [SerializeField] private ParticleSystem cardParticle;
 
     private PlayerControls inputActions;
     private Animator ani;
@@ -22,6 +25,7 @@ public class CardBasicAttack : MonoBehaviour
 
     private int comboCount = 0;
     private bool canCombo = false;
+    private bool skillStart = false;
 
     [SerializeField] private float detectRadius = 5f;
     [SerializeField] private LayerMask enemyLayer;
@@ -38,11 +42,13 @@ public class CardBasicAttack : MonoBehaviour
     {
         inputActions.Enable();
         inputActions.Player.Attack.performed += OnAttack;
+        inputActions.Player.Skill.performed += OnSkill;
     }
 
     private void OnDisable()
     {
         inputActions.Player.Attack.performed -= OnAttack;
+        inputActions.Player.Skill.performed -= OnSkill;
         inputActions.Disable();
     }
 
@@ -84,22 +90,38 @@ public class CardBasicAttack : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectRadius);
     }
 
+    private void OnSkill(InputAction.CallbackContext context)
+    {
+        skillStart = true;
+
+        cardParticle.Play();
+        StartCoroutine(CardSetActiveFalse());
+    }
+
+    IEnumerator CardSetActiveFalse()
+    {
+        yield return new WaitForSeconds(0.1f);
+        card.SetActive(false);
+    }
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if (!canCombo && comboCount == 0)
+        if (!skillStart)
         {
-            DetectEnemies();
-            playerMovement.noMove = true;
-            ani.SetTrigger(attack1Hash);
-            comboCount = 1;
-        }
-        else if (canCombo && comboCount == 1)
-        {
-            DetectEnemies();
-            canCombo = false;
-            playerMovement.noMove = true;
-            ani.SetTrigger(attack2Hash);
-            comboCount = 2;
+            if (!canCombo && comboCount == 0)
+            {
+                DetectEnemies();
+                playerMovement.noMove = true;
+                ani.SetTrigger(attack1Hash);
+                comboCount = 1;
+            }
+            else if (canCombo && comboCount == 1)
+            {
+                DetectEnemies();
+                canCombo = false;
+                playerMovement.noMove = true;
+                ani.SetTrigger(attack2Hash);
+                comboCount = 2;
+            }
         }
     }
 
