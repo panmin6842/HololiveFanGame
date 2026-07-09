@@ -12,9 +12,11 @@ public class CardMove : MonoBehaviour
 
     private float maxLeanAngle = 60f;
     private float leanSoothSpeed = 10f;
+    private float nuckBackPower = 5f;
 
     private float currentRollAngle = 0f; // 현재 카드가 기울어진 각도
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    [SerializeField] private GameObject hitParticle;
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -77,6 +79,17 @@ public class CardMove : MonoBehaviour
         }
         else
         {
+            Destroy(gameObject);
+        }
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Enemy"))
+        {
+            Rigidbody enemyRigid = other.GetComponent<Rigidbody>();
+            Utils.NuckBackAndSpawnHitEffect(hitParticle, other, transform.position, enemyRigid, nuckBackPower);
+
             Destroy(gameObject);
         }
     }

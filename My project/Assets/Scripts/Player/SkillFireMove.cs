@@ -9,6 +9,9 @@ public class SkillFireMove : MonoBehaviour
     private CinemachineImpulseSource impulseSource;
 
     private float speed = 5f;
+    private float nuckBackPower = 5f;
+
+    [SerializeField] private GameObject hitParticle;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,7 +28,15 @@ public class SkillFireMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Enemy") || other.CompareTag("Ground"))
+        if(other.CompareTag("Enemy"))
+        {
+            Rigidbody enemyRigid = other.GetComponent<Rigidbody>();
+            Utils.NuckBackAndSpawnHitEffect(hitParticle, other, transform.position, enemyRigid, nuckBackPower);
+            impulseSource.GenerateImpulse();
+            Destroy(gameObject);
+        }
+
+        if(other.CompareTag("Ground"))
         {
             impulseSource.GenerateImpulse();
             Destroy(gameObject);

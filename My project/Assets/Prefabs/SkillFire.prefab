@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillFireMove
   attackPos: {x: 0, y: 0, z: 0}
+  hitParticle: {fileID: 4045631316646680223, guid: 407f83888f492784c9786a5f5e103de5, type: 3}
 --- !u!65 &6049847491346263564
 BoxCollider:
   m_ObjectHideFlags: 0
