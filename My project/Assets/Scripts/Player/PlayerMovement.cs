@@ -1,3 +1,5 @@
+using Photon.Pun;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -35,11 +37,15 @@ public class PlayerMovement : MonoBehaviour
     private readonly int speedHash = Animator.StringToHash("Speed");
     private readonly int jumpHash = Animator.StringToHash("Jump");
 
+    private PhotonView playerView;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
         inputActions = new PlayerControls();
         ani = GetComponent<Animator>();
+
+        playerView = GetComponent<PhotonView>();
     }
 
     private void OnEnable()
@@ -69,6 +75,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerView != null && !playerView.IsMine)
+            return;
+
         //매 프레임 바닥 체크 타이머
         if(characterController.isGrounded)
         {

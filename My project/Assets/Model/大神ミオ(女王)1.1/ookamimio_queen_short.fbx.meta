@@ -3,7 +3,92 @@ guid: 9ab9c2c90f8b42140a56f5c2d32b8be1
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 0.Mat_ookamimio_queen_body
+    second: {fileID: 2100000, guid: 907a6aa35c6af4c439ad2e143d761129, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 1.Mat_ookamimio_queen_face
+    second: {fileID: 2100000, guid: 928e8574abcf5804ca73dac0a1277b39, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 10.Mat_ookamimio_queen_kuti_tongue
+    second: {fileID: 2100000, guid: 2e9a10b6974c5c740af341edf1be0342, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 11.Mat_ookamimio_queen_eye_other
+    second: {fileID: 2100000, guid: 9d3d1e6ac1308f241abc731b8fed2a42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 12.Mat_ookamimio_queen_tere
+    second: {fileID: 2100000, guid: f30d5a7e6409ad241b0b008d5ea3c3ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 13.Mat_ookamimio_queen_ase
+    second: {fileID: 2100000, guid: 033694ac8107e83468baaaac2800a23b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 14.Mat_ookamimio_queen_muka
+    second: {fileID: 2100000, guid: 7d091707af4a19447bd20389867eee30, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 15.Mat_ookamimio_queen_tears
+    second: {fileID: 2100000, guid: 7275bbba4807de94f8384cdd452f95a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 16.Mat_ookamimio_queen_morpheyes
+    second: {fileID: 2100000, guid: f770a1ac62dbe854d89782f866cfb425, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 2.Mat_ookamimio_queen_face_noline
+    second: {fileID: 2100000, guid: ebdf56e99f35f0742a96d355824ce36d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 3.Mat_ookamimio_queen_sirome
+    second: {fileID: 2100000, guid: 4ab0a0aade7dabe458f2a0379ef77611, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 4.Mat_ookamimio_queen_kounai
+    second: {fileID: 2100000, guid: 683500f33e15884489f416cd558e55e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 5.Mat_ookamimio_queen_eye
+    second: {fileID: 2100000, guid: d772e88f72d32ed4da3f6a2f7ea06ff3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 6.Mat_ookamimio_queen_highlight
+    second: {fileID: 2100000, guid: 2331c4f494ed26e4f891fe781f6b8cbc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 7.Mat_ookamimio_queen_mayu
+    second: {fileID: 2100000, guid: fa2717526c3273142867dea252b576f6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 8.Mat_ookamimio_queen_mayuge
+    second: {fileID: 2100000, guid: 0f956c73e52c4d348b1c5c538eb4d1f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 9.Mat_ookamimio_queen_kuti_teeth
+    second: {fileID: 2100000, guid: 60e27548ad8055847bc75f6ff46915f0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
