@@ -2,6 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
@@ -19,14 +20,25 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     //플레이어 오브젝트
     public GameObject photonPlayer => _player;
 
+    [Header("====방 관련====")]
+    [SerializeField] private GameObject lobbyPanel;
+    [SerializeField] private GameObject waitingRoomPanel;
+    [SerializeField] private RoomManager roomManager;
+
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+            DontDestroyOnLoad(instance);
+        }
         else
+        {
             Destroy(instance);
+            return;
+        }
 
-        DontDestroyOnLoad(instance);
+        
 
         F_MasterClient();
     }
@@ -39,8 +51,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.GameVersion = _roomVersion;
         Debug.Log("포톤 서버 초당 데이터 통신 수 : " + PhotonNetwork.SendRate);
 
+        PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "kr";
+
         //포튼 사용자들을 포튼 서버에 연결
-        if(!PhotonNetwork.IsConnected)
+        if (!PhotonNetwork.IsConnected)
             PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -53,6 +67,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         //로비 입장 함수 실행
         PhotonNetwork.JoinLobby();
     }
+
 
     //로비 접속 시
     public override void OnJoinedLobby()
@@ -78,6 +93,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinOrCreateRoom(_roomName, roomOptions, TypedLobby.Default);
     }
 
+    // 방 생성 실패 시 포톤이 호출해 주는 함수
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.LogError($"방 생성 실패 원인 ({returnCode}): {message}");
+    }
+
     public override void OnCreatedRoom()
     {
         //방 생성 시
@@ -90,7 +111,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log($"{PhotonNetwork.CurrentRoom.Name} 에 입장 / 방에 있는지 여부 : {PhotonNetwork.InRoom} " +
             $"인원 수 : {PhotonNetwork.CurrentRoom.PlayerCount}");
 
-        //StartCoroutine(CreatePlayer());
+        if (lobbyPanel != null) lobbyPanel.SetActive(false);
+        if(waitingRoomPanel != null) waitingRoomPanel.SetActive(true);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -100,10 +122,31 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         JointRoom();
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log($"[방장 화면 감지] 새로운 유저 입장: {newPlayer.NickName} / 현재 방 인원: {PhotonNetwork.CurrentRoom.PlayerCount}");
+
+        if(roomManager != null)
+            roomManager.RefreshPlayerList();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log($"[방장 화면 감지] 유저 퇴장: {otherPlayer.NickName} / 현재 방 인원: {PhotonNetwork.CurrentRoom.PlayerCount}");
+
+        if (roomManager != null)
+            roomManager.RefreshPlayerList();
+    }
+
+    public override void OnLeftRoom()
+    {
+        if (waitingRoomPanel != null) waitingRoomPanel.SetActive(false);
+        if (lobbyPanel != null) lobbyPanel.SetActive(true);
+    }
+
     IEnumerator CreatePlayer()
     {
         yield return new WaitForSeconds(3);
-
         _player = PhotonNetwork.Instantiate("Mio", new Vector3(0, 0, 0), Quaternion.identity);
 
         if(_player == null )

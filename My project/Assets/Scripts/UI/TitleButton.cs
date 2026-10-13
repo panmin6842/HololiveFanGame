@@ -24,10 +24,19 @@ public class TitleButton : MonoBehaviour
 
     public void DecisionButtonClick()
     {
+        if (string.IsNullOrWhiteSpace(_playerName.text))
+        {
+            _playerName.text = "Player" + Random.Range(1000, 9999);
+        }
+
+        if(string.IsNullOrWhiteSpace(_roomName.text))
+        {
+            _roomName.text = "Room" + Random.Range(1000, 9999);
+        }
+
         UIManager.Instance.playerName = _playerName.text;
+        PhotonNetwork.NickName = _playerName.text;
         UIManager.Instance.roomName = _roomName.text;
-
-
         RoomOptions options = new RoomOptions { MaxPlayers = 4, IsVisible = true, IsOpen = true };
         PhotonNetwork.CreateRoom(_roomName.text, options);
 

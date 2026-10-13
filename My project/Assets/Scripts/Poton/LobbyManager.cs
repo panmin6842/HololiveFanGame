@@ -15,7 +15,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //포톤 로비에서 방 목록 변경 사항이 생길 때마다 자동으로 호출되는 콜백
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        foreach(RoomInfo room in roomList)
+        Debug.Log($"방 목록 업데이트 수신! 변동된 방 개수: {roomList.Count}");
+
+        foreach (RoomInfo room in roomList)
         {
             //룸이 없어졌거나 숨김일 경우
             if(room.RemovedFromList || !room.IsVisible)
